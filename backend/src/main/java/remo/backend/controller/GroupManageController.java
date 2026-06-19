@@ -20,7 +20,7 @@ public class GroupManageController {
 
 
     @PostMapping("{groupId}/invite/users/{userId}")
-    @PreAuthorize("@groupSecurityService.isOwner(#groupId, authentication.name)")
+    @PreAuthorize("@groupSecurityService.isGroupOwner(#groupId, authentication.name)")
     public ResponseEntity<Void> inviteMember(
             @PathVariable Long groupId,
             @PathVariable Long userId) {
@@ -41,7 +41,7 @@ public class GroupManageController {
 
 
     @DeleteMapping("{groupId}/remove/users/{userId}")
-    @PreAuthorize("@groupSecurityService.isOwner(#groupId, authentication.name)")
+    @PreAuthorize("@groupSecurityService.isGroupOwner(#groupId, authentication.name)")
     public ResponseEntity<Void> removeMember(
             @PathVariable Long groupId,
             @PathVariable Long userId) {

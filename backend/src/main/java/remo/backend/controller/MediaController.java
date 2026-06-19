@@ -5,9 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import remo.backend.dto.CreateMediaDto;
 import remo.backend.dto.MediaDto;
 import remo.backend.entity.Media;
 import remo.backend.service.MediaService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/media")
@@ -17,8 +20,14 @@ public class MediaController {
     @Autowired
     private MediaService mediaService;
 
+    @GetMapping
+    @PreAuthorize("hasRole('COACH')")
+    public ResponseEntity<List<Media>> getAllMedia() {
+        return ResponseEntity.ok(mediaService.getAllMedia());
+    }
+
     @GetMapping("/{mediaId}")
-    @PreAuthorize("@groupSecurityService.canViewMedia(#mediaId, authentication.name)")
+    @PreAuthorize("@groupSecurityService.canViewMedia(#mediaId, authentication.name) || hasRole('COACH')")
     public ResponseEntity<Media> getMediaById(@PathVariable Long mediaId) {
         return mediaService.getMediaById(mediaId)
                 .map(ResponseEntity::ok)
@@ -31,9 +40,20 @@ public class MediaController {
         return ResponseEntity.ok(mediaService.getLikeCount(mediaId, authentication));
     }
 
+    @PostMapping
+    public ResponseEntity<Media> createMedia(@RequestBody CreateMediaDto media, Authentication authentication) {
+        return ResponseEntity.ok(mediaService.createMedia(media, authentication));
+    }
+
     @PatchMapping("/{mediaId}/toggleLike")
     @PreAuthorize("@groupSecurityService.canViewMedia(#mediaId, authentication.name)")
     public ResponseEntity<Media> likeMedia(@PathVariable Long mediaId, Authentication authentication) {
         return ResponseEntity.ok(mediaService.likeMedia(mediaId, authentication));
+    }
+
+    @PatchMapping("/{mediaId}/post")
+    @PreAuthorize("@groupSecurityService.isMediaOwner(#mediaId, authentication.name)")
+    public ResponseEntity<Media> postMedia(@PathVariable Long mediaId) {
+        return ResponseEntity.ok(mediaService.postMedia(mediaId));
     }
 }

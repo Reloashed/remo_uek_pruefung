@@ -42,4 +42,8 @@ public class Account {
     @JsonIgnore
     @ManyToMany(mappedBy = "likedBy")
     private List<Media> likedMedia;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "owner")
+    private List<Media> ownedMedia;
 }

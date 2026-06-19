@@ -43,4 +43,48 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
+
+    @ExceptionHandler(MediaNotFoundException.class)
+    public ResponseEntity<ApiError> handleMediaNotFound(MediaNotFoundException ex) {
+        ApiError error = new ApiError(
+                Instant.now(),
+                404,
+                "MEDIA_NOT_FOUND",
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(AccountNotFoundException.class)
+    public ResponseEntity<ApiError> handleAccountNotFound(AccountNotFoundException ex) {
+        ApiError error = new ApiError(
+                Instant.now(),
+                404,
+                "ACCOUNT_NOT_FOUND",
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(GroupNotFoundException.class)
+    public ResponseEntity<ApiError> handleGroupNotFound(GroupNotFoundException ex) {
+        ApiError error = new ApiError(
+                Instant.now(),
+                404,
+                "GROUP_NOT_FOUND",
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(NotAllowedToModifyGroup.class)
+    public ResponseEntity<ApiError> handleNotAllowedToModifyGroup(NotAllowedToModifyGroup ex) {
+        ApiError error = new ApiError(
+                Instant.now(),
+                403,
+                "NOT_ALLOWED_TO_MODIFY_GROUP",
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    }
 }

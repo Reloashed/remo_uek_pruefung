@@ -20,11 +20,18 @@ public class Media {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String media;
+    @Enumerated(EnumType.STRING)
+    private MediaStatus mediaStatus;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account owner;
 
     @ManyToMany
     @JoinTable(name = "media_likes",
