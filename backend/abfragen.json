@@ -1,0 +1,433 @@
+{
+  "info": {
+    "name": "abfragen",
+    "description": null,
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "login",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"anna\",\n  \"passwordHash\": \"pizza\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "protected",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "3ece75f2-408d-4010-b928-aa1dceb0bcc3",
+            "disabled": false,
+            "type": "default"
+          }
+        ],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/auth/protected",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "auth",
+            "protected"
+          ],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "register",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/auth/register",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "auth",
+            "register"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Remo\",\n  \"lastName\": \"Scherrer\",\n  \"email\": \"r@r.ch\",\n  \"password\": \"remo\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "confirmRegistration",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/auth/register/confirm/b3808f35-fed2-40b1-a269-44ec238a37db",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "auth",
+            "register",
+            "confirm",
+            "b3808f35-fed2-40b1-a269-44ec238a37db"
+          ],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "getProfile",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "noauth"
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/api/me/profile",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "api",
+            "me",
+            "profile"
+          ],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "updateProfile",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cml0eWRlbW8iLCJzdWIiOiJhbm5hIiwicm9sZXMiOlsiUk9MRV9VU0VSIiwiRkFDVE9SX1BBU1NXT1JEIl0sImlhdCI6MTc4MTc3MjUzNiwiZXhwIjoxNzgxNzc2MTM2fQ.2OMmYv9lCWKBrnZW5GNEnAZcCEqYDXBr1ZPOoH7Eomg9-SWfGB0gIefs1x-ncpkivPeqkfln9Ewk905JtVed8g",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/api/me/profile",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "api",
+            "me",
+            "profile"
+          ],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "updateProfile(Id)",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cml0eWRlbW8iLCJzdWIiOiJhbm5hIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIkZBQ1RPUl9QQVNTV09SRCJdLCJpYXQiOjE3ODE4NTg0NjEsImV4cCI6MTc4MTg2MjA2MX0.M8OpmTSTbNLhRhai0AtJthD_xbmdnNmGL73UEh--c3Nk8JpwmYyKhalroQpK4Q7p6DoYfbdqyCPDM7jsSaYBDw",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/api/me/profile/2/verify",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "api",
+            "me",
+            "profile",
+            "2",
+            "verify"
+          ],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "likeMedia",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cml0eWRlbW8iLCJzdWIiOiJqYW1lcyIsInJvbGVzIjpbIlJPTEVfQ09BQ0giLCJGQUNUT1JfUEFTU1dPUkQiXSwiaWF0IjoxNzgxODczMjA4LCJleHAiOjE3ODE4NzY4MDh9.BtSNUeS3ZRkJs4CDGDERPKp-_bdKLIgi-M2-WpOM63wjYAU0Y6dT8sia4VD10z6jPbLyMiV-A2kPSILP9GVOxg",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/media/4/toggleLike",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "media",
+            "4",
+            "toggleLike"
+          ],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "getMedia",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cml0eWRlbW8iLCJzdWIiOiJhbm5hIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIkZBQ1RPUl9QQVNTV09SRCJdLCJpYXQiOjE3ODE4NzE5MjYsImV4cCI6MTc4MTg3NTUyNn0.FEkZPYkFa-HWc23rqhZX3z5gvUGN5GiAUMnzovtxTpC_uqjaHZ2Nwbg4rhs37hwwGdh_b55NqGCUfXXMBbdhmQ",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/media/4",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "media",
+            "4"
+          ],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "getLikeCount",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cml0eWRlbW8iLCJzdWIiOiJhbm5hIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIkZBQ1RPUl9QQVNTV09SRCJdLCJpYXQiOjE3ODE4NzMyNzksImV4cCI6MTc4MTg3Njg3OX0.1gvaxEu-J9PbMxsT9ii0Huwd2GNObbnzhrGYny0YkSZoNcwcHEorJ0ZGs88_J92cyUh9ADN_ujA459hSW2Mxrw",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/media/4/likeCount",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "media",
+            "4",
+            "likeCount"
+          ],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "getAllMedia",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cml0eWRlbW8iLCJzdWIiOiJqYW1lcyIsInJvbGVzIjpbIlJPTEVfQ09BQ0giLCJGQUNUT1JfUEFTU1dPUkQiXSwiaWF0IjoxNzgxODcyMjY3LCJleHAiOjE3ODE4NzU4Njd9.n3ISGCn9Eqmji9EimdD_JqxKiQqpxbOHsRdAUBDLND3iNGH1IYeiIQCsIif0r7LrIn0dJHtXZGMPN393hrMJzQ",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/media",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "media"
+          ],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "createMedia",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cml0eWRlbW8iLCJzdWIiOiJqYW1lcyIsInJvbGVzIjpbIlJPTEVfQ09BQ0giLCJGQUNUT1JfUEFTU1dPUkQiXSwiaWF0IjoxNzgxODczMjA4LCJleHAiOjE3ODE4NzY4MDh9.BtSNUeS3ZRkJs4CDGDERPKp-_bdKLIgi-M2-WpOM63wjYAU0Y6dT8sia4VD10z6jPbLyMiV-A2kPSILP9GVOxg",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/media",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "media"
+          ],
+          "query": [],
+          "variable": []
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"media\": \"media\",\n  \"groupId\": 2\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "postMedia",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cml0eWRlbW8iLCJzdWIiOiJqYW1lcyIsInJvbGVzIjpbIlJPTEVfQ09BQ0giLCJGQUNUT1JfUEFTU1dPUkQiXSwiaWF0IjoxNzgxODczMjA4LCJleHAiOjE3ODE4NzY4MDh9.BtSNUeS3ZRkJs4CDGDERPKp-_bdKLIgi-M2-WpOM63wjYAU0Y6dT8sia4VD10z6jPbLyMiV-A2kPSILP9GVOxg",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/media/4/post",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "media",
+            "4",
+            "post"
+          ],
+          "query": [],
+          "variable": []
+        }
+      }
+    },
+    {
+      "name": "swaggerDoc",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJzZWN1cml0eWRlbW8iLCJzdWIiOiJtYWVyZTc3Iiwicm9sZXMiOlsiUk9MRV9ERVZFTE9QRVIiLCJGQUNUT1JfUEFTU1dPUkQiXSwiaWF0IjoxNzgxODcyNzQ0LCJleHAiOjE3ODE4NzYzNDR9.033Ii1_ign61_O38csTf1WjnSZlSfPYQufldP3y3BBASD4RhI5TWZ94MXoLYf7KcmHq_OQ9zLY_FfKbfvAKSiQ",
+            "type": "string"
+          }
+        },
+        "description": "",
+        "url": {
+          "raw": "http://localhost:8080/v3/api-docs",
+          "protocol": "http",
+          "host": [
+            "localhost:8080"
+          ],
+          "path": [
+            "v3",
+            "api-docs"
+          ],
+          "query": [],
+          "variable": []
+        }
+      }
+    }
+  ],
+  "variable": []
+}
