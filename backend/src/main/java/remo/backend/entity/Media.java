@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Table(name = "media")
@@ -23,4 +25,11 @@ public class Media {
     @ManyToOne
     @JoinColumn(name = "group_id")
     private Group group;
+
+    @ManyToMany
+    @JoinTable(name = "media_likes",
+            joinColumns = @JoinColumn(name = "media_id"),
+            inverseJoinColumns = @JoinColumn(name = "account_id")
+    )
+    private List<Account> likedBy;
 }

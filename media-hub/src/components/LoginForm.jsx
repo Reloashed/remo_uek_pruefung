@@ -2,139 +2,96 @@ import { useState } from 'react';
 import { authService } from '../services/authService';
 import '../styles/LoginForm.css';
 
-export default function LoginForm() {
-    const [formData, setFormData] = useState({
-        username: '',
-        password: '',
-    });
+export default function LoginForm({ onSuccess, onGoRegister }) {
+  const [formData, setFormData] = useState({ username: '', password: '' });
+  const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
-    const [errors, setErrors] = useState({});
-    const [isLoading, setIsLoading] = useState(false);
-    const [successMessage, setSuccessMessage] = useState('');
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }));
+  };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
-        if (errors[name]) {
-            setErrors((prev) => ({
-                ...prev,
-                [name]: '',
-            }));
-        }
-    };
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.username.trim()) newErrors.username = 'Benutzername ist erforderlich';
+    if (!formData.password) newErrors.password = 'Passwort ist erforderlich';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-    const validateForm = () => {
-        const newErrors = {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
 
-        if (!formData.username.trim()) {
-            newErrors.username = 'Benutzername ist erforderlich';
-        }
+    setIsLoading(true);
+    try {
+      const response = await authService.loginUser(formData.username, formData.password);
+      if (response.success && response.token) {
+        sessionStorage.setItem('token', response.token);
+        onSuccess?.();
+      } else {
+        throw new Error('Kein Token erhalten');
+      }
+    } catch (error) {
+      setErrors({ submit: 'Anmeldung fehlgeschlagen. Bitte Benutzername und Passwort prüfen.' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-        if (!formData.password) {
-            newErrors.password = 'Passwort ist erforderlich';
-        }
+  return (
+    <div className="login-form-container">
+      <div className="login-form-card">
+        <h1 className="login-title">Media-Hub Anmeldung</h1>
+        <p className="login-subtitle">Melden Sie sich mit Ihrem Konto an</p>
 
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
+        <form onSubmit={handleSubmit} className="login-form">
+          <div className="form-group">
+            <label htmlFor="username">Benutzername</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              placeholder="max.mustermann"
+              className={errors.username ? 'input-error' : ''}
+              autoComplete="username"
+            />
+            {errors.username && <span className="error-text">{errors.username}</span>}
+          </div>
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setSuccessMessage('');
+          <div className="form-group">
+            <label htmlFor="password">Passwort</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="••••••••"
+              className={errors.password ? 'input-error' : ''}
+              autoComplete="current-password"
+            />
+            {errors.password && <span className="error-text">{errors.password}</span>}
+          </div>
 
-        if (!validateForm()) {
-            return;
-        }
+          {errors.submit && <div className="error-message">{errors.submit}</div>}
 
-        setIsLoading(true);
+          <button type="submit" className="submit-button" disabled={isLoading}>
+            {isLoading ? 'Wird angemeldet...' : 'Anmelden'}
+          </button>
+        </form>
 
-        try {
-            const response = await authService.loginUser(formData.username, formData.password);
-
-            if (response.success && response.token) {
-                sessionStorage.setItem('token', response.token);
-                setSuccessMessage('Anmeldung erfolgreich! Willkommen zurück 👋');
-                setFormData({ username: '', password: '' });
-                setTimeout(() => {
-                    setSuccessMessage('');
-                }, 5000);
-            } else {
-                throw new Error('Kein Token erhalten');
-            }
-        } catch (error) {
-            setErrors({ submit: 'Anmeldung fehlgeschlagen. Bitte versuchen Sie es später.' });
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    return (
-        <div className="login-form-container">
-            <div className="login-form-card">
-                <h1 className="login-title">Media-Hub Anmeldung</h1>
-                <p className="login-subtitle">Melden Sie sich mit Ihrem Konto an</p>
-
-                {successMessage && (
-                    <div className="success-message">
-                        {successMessage}
-                    </div>
-                )}
-
-                <form onSubmit={handleSubmit} className="login-form">
-                    <div className="form-group">
-                        <label htmlFor="username">Benutzername</label>
-                        <input
-                            type="text"
-                            id="username"
-                            name="username"
-                            value={formData.username}
-                            onChange={handleChange}
-                            placeholder="max.mustermann"
-                            className={errors.username ? 'input-error' : ''}
-                            autoComplete="username"
-                        />
-                        {errors.username && (
-                            <span className="error-text">{errors.username}</span>
-                        )}
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="password">Passwort</label>
-                        <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            placeholder="••••••••"
-                            className={errors.password ? 'input-error' : ''}
-                            autoComplete="current-password"
-                        />
-                        {errors.password && (
-                            <span className="error-text">{errors.password}</span>
-                        )}
-                    </div>
-
-                    {errors.submit && (
-                        <div className="error-message">{errors.submit}</div>
-                    )}
-
-                    <button
-                        type="submit"
-                        className="submit-button"
-                        disabled={isLoading}
-                    >
-                        {isLoading ? 'Wird angemeldet...' : 'Anmelden'}
-                    </button>
-                </form>
-
-                <p className="register-link">
-                    Noch kein Konto? <a href="#register">Hier registrieren</a>
-                </p>
-            </div>
-        </div>
-    );
+        <p className="register-link">
+          Noch kein Konto?{' '}
+          <button className="link-button" onClick={onGoRegister}>
+            Hier registrieren
+          </button>
+        </p>
+      </div>
+    </div>
+  );
 }

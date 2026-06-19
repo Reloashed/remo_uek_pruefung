@@ -20,6 +20,8 @@ CREATE TABLE account
 
     profile_id    BIGINT UNIQUE NOT NULL,
 
+    liked_media BIGINT,
+
     CONSTRAINT fk_account_profile
         FOREIGN KEY (profile_id)
             REFERENCES user_profile(id)
@@ -42,6 +44,7 @@ CREATE TABLE media (
                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
                        media VARCHAR(255) NOT NULL,
                        group_id BIGINT,
+                        liked_by BIGINT,
                        CONSTRAINT fk_media_group
                            FOREIGN KEY (group_id)
                                REFERENCES groups(id)
@@ -60,4 +63,19 @@ CREATE TABLE members_groups (
                                 CONSTRAINT fk_members_groups_account
                                     FOREIGN KEY (member_id)
                                         REFERENCES account(id)
+);
+
+CREATE TABLE media_likes (
+                        media_id BIGINT NOT NULL,
+                        account_id BIGINT NOT NULL,
+
+                        PRIMARY KEY (media_id, account_id),
+
+                        CONSTRAINT fk_media_likes_media
+                            FOREIGN KEY (media_id)
+                                REFERENCES media(id),
+
+                        CONSTRAINT fk_media_likes_account
+                            FOREIGN KEY (account_id)
+                                REFERENCES account(id)
 );

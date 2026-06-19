@@ -12,6 +12,7 @@ import remo.backend.repository.GroupRepository;
 @RestController
 @RequestMapping("/groups")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class GroupManageController {
 
     private final GroupRepository groupRepository;

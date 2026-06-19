@@ -34,7 +34,12 @@ public class Account {
     @ManyToMany(mappedBy = "members")
     private List<Group> my_groups;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_id")
     private UserProfile userProfile;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "likedBy")
+    private List<Media> likedMedia;
 }

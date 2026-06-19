@@ -13,6 +13,7 @@ import java.net.URI;
 
 @RestController
 @RequestMapping("/api/me/profile")
+@CrossOrigin("*")
 public class UserProfileController {
     private final UserProfileService userProfileService;
     @Autowired

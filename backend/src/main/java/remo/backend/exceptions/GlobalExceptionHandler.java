@@ -32,4 +32,15 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
+
+    @ExceptionHandler(MediaOrAccountNotFoundException.class)
+    public ResponseEntity<ApiError> handleMediaOrAccountNotFound(MediaOrAccountNotFoundException ex) {
+        ApiError error = new ApiError(
+                Instant.now(),
+                404,
+                "MEDIA_OR_ACCOUNT_NOT_FOUND",
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
 }
