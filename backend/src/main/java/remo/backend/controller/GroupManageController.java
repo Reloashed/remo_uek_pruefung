@@ -1,6 +1,6 @@
 package remo.backend.controller;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -11,13 +11,16 @@ import remo.backend.repository.GroupRepository;
 
 @RestController
 @RequestMapping("/groups")
-@RequiredArgsConstructor
 @CrossOrigin("*")
 public class GroupManageController {
 
     private final GroupRepository groupRepository;
     private final AccountRepository accountRepository;
-
+    @Autowired
+    public GroupManageController(GroupRepository groupRepository, AccountRepository accountRepository) {
+        this.groupRepository = groupRepository;
+        this.accountRepository = accountRepository;
+    }
 
     @PostMapping("{groupId}/invite/users/{userId}")
     @PreAuthorize("@groupSecurityService.isGroupOwner(#groupId, authentication.name)")

@@ -17,8 +17,11 @@ import java.util.List;
 @CrossOrigin("*")
 public class MediaController {
 
+    private final MediaService mediaService;
     @Autowired
-    private MediaService mediaService;
+    public MediaController(MediaService mediaService) {
+        this.mediaService = mediaService;
+    }
 
     @GetMapping
     @PreAuthorize("hasRole('COACH')")

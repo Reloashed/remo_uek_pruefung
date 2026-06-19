@@ -21,15 +21,17 @@ import java.util.Optional;
 @Service
 public class MediaService {
 
+    private final MediaRepository mediaRepository;
+    private final AccountRepository accountRepository;
+    private final GroupRepository groupRepository;
+    private final GroupSecurityService groupSecurityService;
     @Autowired
-    private MediaRepository mediaRepository;
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private GroupRepository groupRepository;
-    @Autowired
-    private GroupSecurityService groupSecurityService;
-
+    public MediaService(MediaRepository mediaRepository, AccountRepository accountRepository, GroupRepository groupRepository, GroupSecurityService groupSecurityService) {
+        this.mediaRepository = mediaRepository;
+        this.accountRepository = accountRepository;
+        this.groupRepository = groupRepository;
+        this.groupSecurityService = groupSecurityService;
+    }
 
     public Optional<Media> getMediaById(Long mediaId) {
         return mediaRepository.findById(mediaId);
@@ -61,24 +63,28 @@ public class MediaService {
     public Media likeMedia(Long mediaId, Authentication authentication) {
         Optional<Media> mediaToLike = mediaRepository.findById(mediaId);
         Optional<Account> account = accountRepository.findAccountByUsername(authentication.getName());
-        if (mediaToLike.isPresent() && account.isPresent()) {
-            Media media = mediaToLike.get();
-            Account acc = account.get();
-            if (media.getLikedBy().contains(acc)) {
-                media.getLikedBy().remove(acc);
-            } else {
-                media.getLikedBy().add(acc);
-            }
-            return mediaRepository.save(media);
+        if (mediaToLike.isEmpty()) {
+            throw new MediaNotFoundException("Media not found");
         }
-        throw new MediaOrAccountNotFoundException("Media or account not found");
+        if (account.isEmpty()) {
+            throw new AccountNotFoundException("Account not found");
+        }
+
+        Media media = mediaToLike.get();
+        Account acc = account.get();
+        if (media.getLikedBy().contains(acc)) {
+            media.getLikedBy().remove(acc);
+        } else {
+            media.getLikedBy().add(acc);
+        }
+        return mediaRepository.save(media);
     }
 
     public MediaDto getLikeCount(Long mediaId, Authentication authentication) {
         Optional<Media> mediaOptional = mediaRepository.findById(mediaId);
         if (mediaOptional.isPresent()) {
             Media media = mediaOptional.get();
-            if (media.getGroup().getOwner().getUsername().equals(authentication.getName())) {
+            if (media.getOwner().getUsername().equals(authentication.getName())) {
                 return new MediaDto(media.getMedia(), media.getLikedBy().size(), media.getLikedBy());
             }
             return new MediaDto(media.getMedia(), media.getLikedBy().size(), List.of());
